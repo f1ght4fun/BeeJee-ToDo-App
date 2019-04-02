@@ -6,6 +6,8 @@ import {
   TODO_FETCH_SUCCESS,
   TODO_PAGE,
   TODO_SORT,
+  TODO_EDIT_LOADING,
+  TODO_EDIT_SUCCESS,
 } from '../actions/action-types'
 
 const initialState = {
@@ -28,6 +30,7 @@ export default (state = initialState, {type, payload}) => {
   switch (type) {
     case TODO_ADD_LOADING:
     case TODO_FETCH_LOADING:
+    case TODO_EDIT_LOADING:
       return {
         ...state,
         loading: true,
@@ -65,6 +68,14 @@ export default (state = initialState, {type, payload}) => {
         list: {
           ...state.list,
           sorting: payload,
+        },
+      }
+    case TODO_EDIT_SUCCESS:
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          tasks: state.list.tasks.slice().map(el => {return el.id === payload.id ? payload : el}),
         },
       }
     default:
